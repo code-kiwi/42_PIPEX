@@ -1,16 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   multiple_forks.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 12:16:35 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/15 11:39:55 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/15 12:55:17 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include <unistd.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 int main(int ac, char **ag, char **envp)
 {
@@ -22,25 +27,25 @@ int main(int ac, char **ag, char **envp)
 	{
 		if (id2 == 0)
 		{
-			ft_printf("We are process Y id1=%d - id2=%d\n", id1, id2);
+			printf("We are process Y id1=%d - id2=%d\n", id1, id2);
 		}
 		else
 		{
 			waitpid(id2, &status, 0);
-			ft_printf("We are process X id1=%d - id2=%d\n", id1, id2);
+			printf("We are process X id1=%d - id2=%d\n", id1, id2);
 		}
 	}
 	else if (id2 == 0)
 	{
 		waitpid(id1, &status, 0);
-		ft_printf("We are process Z id1=%d - id2=%d\n", id1, id2);
+		printf("We are process Z id1=%d - id2=%d\n", id1, id2);
 	}
 	else
 	{
 		waitpid(id1, &status, 0);
 		waitpid(id2, &status, 0);
-		ft_printf("We are process parent id1=%d - id2=%d\n", id1, id2);
+		printf("We are process parent id1=%d - id2=%d\n", id1, id2);
 	}
-	ft_printf("END OF PROCESS id1=%d - id2=%d\n", id1, id2);
+	printf("END OF PROCESS id1=%d - id2=%d\n", id1, id2);
 	return (0);
 }
