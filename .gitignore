@@ -1,0 +1,6 @@
+srcs/*.h
+includes/libft.h
+includes/ft_printf.h
+includes/fpf_buffer.h
+includes/get_next_line.h
+TESTS
