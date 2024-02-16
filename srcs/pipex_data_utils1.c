@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex_data_utils1.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/11 12:16:35 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/16 14:24:27 by mhotting         ###   ########.fr       */
+/*   Created: 2024/02/16 13:35:54 by mhotting          #+#    #+#             */
+/*   Updated: 2024/02/16 13:37:36 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	main(int argc, char **argv, char **envp)
+void	init_pipex_data(t_pipex_data *data)
 {
-	t_pipex_data	data;
-
-	if (argc != 5)
-	{
-		ft_dprintf(STDERR_FILENO, ERROR_MESSAGE_ARGS);
-		exit(EXIT_FAILURE);
-	}
-	init_pipex_data(&data);
-	get_env_paths(&data, envp);
-	get_commands(&data, argc, argv);
-	make_pipes(&data);
-	exec_commands(&data);
-	wait_pids(&data);
-	return (0);
+	data->commands = NULL;
+	data->pids = NULL;
+	data->paths = NULL;
+	data->fd_infile = -1;
+	data->fd_outfile = -1;
 }
