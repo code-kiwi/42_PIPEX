@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 12:16:35 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/16 14:24:27 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/18 13:27:07 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ int	main(int argc, char **argv, char **envp)
 	make_pipes(&data);
 	exec_commands(&data);
 	wait_pids(&data);
+	clean_pipex_data(&data);
 	return (0);
 }
