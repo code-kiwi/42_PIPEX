@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 12:17:27 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/18 13:34:38 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/18 16:30:21 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define ERROR_MESSAGE_MALLOC "A memory allocation failed"
 # define PATH_STR_START "PATH="
 # define PATH_STR_START_LEN 5
-# define PATH_STR_SEPERATOR ':'
+# define PATH_STR_SEPERATOR ":"
 
 typedef struct s_pipex_data
 {

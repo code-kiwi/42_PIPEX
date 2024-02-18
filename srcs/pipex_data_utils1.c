@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:35:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/18 13:43:26 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/18 17:43:45 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	init_pipex_data(t_pipex_data *data)
  */
 void	clean_pipex_data(t_pipex_data *data)
 {
-	if (data)
-		return ;
+	if (data == NULL)
+		return (handle_error(data, false, ERROR_MESSAGE_NULL_PTR));
+	if (data->paths != NULL)
+		ft_free_str_array(&(data->paths));
 }
