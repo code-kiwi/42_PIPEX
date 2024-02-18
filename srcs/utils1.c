@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 11:42:46 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/18 13:38:30 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/18 19:03:37 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,22 @@ void	handle_error(t_pipex_data *data, bool use_errno, char *error_message)
 	else
 		ft_dprintf(STDERR_FILENO, "Error: Unknown error occured\n");
 	exit(EXIT_FAILURE);
+}
+
+/*
+ *	Closes the given file descriptor
+ *	In case of error, the appropriate message is printed
+ */
+void	close_file(t_pipex_data *data, int fd)
+{
+	if (close(fd) == -1)
+	{
+		if (data != NULL)
+		{
+			ft_dprintf(STDERR_FILENO, "%s: Error - %s\n", data->program_name, \
+					strerror(errno));
+		}
+		else
+			ft_dprintf(STDERR_FILENO, "Error - %s\n", strerror(errno));
+	}
 }

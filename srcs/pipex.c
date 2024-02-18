@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 12:16:35 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/18 17:43:12 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/18 18:52:24 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	main(int argc, char **argv, char **envp)
 		ft_dprintf(STDERR_FILENO, ERROR_MESSAGE_ARGS);
 		exit(EXIT_FAILURE);
 	}
-	init_pipex_data(&data);
+	init_pipex_data(&data, argv[0]);
+	handle_infile_outfile(&data, argc, argv);
 	get_env_paths(&data, envp);
 	get_commands(&data, argc, argv);
 	make_pipes(&data);
