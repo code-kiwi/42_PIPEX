@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:35:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/18 19:05:46 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/19 11:46:54 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 /*
  *	Sets the defaults values of a t_pipex_data element
  */
-void	init_pipex_data(t_pipex_data *data, char *program_name)
+void	init_pipex_data(t_pipex_data *data, char *program_name, char **envp)
 {
 	data->program_name = program_name;
+	data->envp = envp;
 	data->commands = NULL;
 	data->pids = NULL;
 	data->paths = NULL;
@@ -39,4 +40,6 @@ void	clean_pipex_data(t_pipex_data *data)
 		close_file(data, data->fd_infile);
 	if (data->fd_outfile != -1)
 		close_file(data, data->fd_outfile);
+	if (data->commands != NULL)
+		ft_lstclear(&(data->commands), &delete_command);
 }
