@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:35:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/19 11:46:54 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/19 16:57:27 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	init_pipex_data(t_pipex_data *data, char *program_name, char **envp)
 	data->commands = NULL;
 	data->pids = NULL;
 	data->paths = NULL;
-	data->fd_infile = -1;
-	data->fd_outfile = -1;
+	data->fd_infile = FD_UNSET;
+	data->fd_outfile = FD_UNSET;
 }
 
 /*
@@ -36,9 +36,15 @@ void	clean_pipex_data(t_pipex_data *data)
 		return (handle_error(data, false, ERROR_MESSAGE_NULL_PTR));
 	if (data->paths != NULL)
 		ft_free_str_array(&(data->paths));
-	if (data->fd_infile != -1)
+	if (
+		data->fd_infile != FD_TREATED && data->fd_infile != -1
+		&& data->fd_infile != FD_UNSET
+	)
 		close_file(data, data->fd_infile);
-	if (data->fd_outfile != -1)
+	if (
+		data->fd_outfile != FD_TREATED && data->fd_outfile != -1
+		&& data->fd_outfile != FD_UNSET
+	)
 		close_file(data, data->fd_outfile);
 	if (data->commands != NULL)
 		ft_lstclear(&(data->commands), &delete_command);

@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:12:25 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/18 18:50:29 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/19 17:03:10 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
  *	Opens infile and outfile given as program parameter in order to associate
  *	a file descriptor to them and register them into the project main struct
  *	In case of error, the appropriate error message is printed but the
- *	execution keeps going (main structure fds are set to -1 by default and will
- *	keep this value when an error occurs)
+ *	execution keeps going (main structure fds are set to FD_UNSET by default
+ *	and will keep this value when an error occurs)
  */
 void	handle_infile_outfile(t_pipex_data *data, int argc, char **argv)
 {

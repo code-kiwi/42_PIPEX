@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:03:03 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/19 12:51:22 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/19 16:58:50 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ t_command	*create_command(char **cmd_args)
 	cmd = (t_command *) malloc(sizeof(t_command));
 	if (cmd == NULL)
 		return (cmd);
-	cmd->fd_in = -1;
-	cmd->fd_out = -1;
+	cmd->fd_in = FD_UNSET;
+	cmd->fd_out = FD_UNSET;
 	cmd->args = cmd_args;
 	return (cmd);
 }
@@ -43,9 +43,9 @@ void	delete_command(void *command)
 	if (command == NULL)
 		return ;
 	cmd = (t_command *) command;
-	if (cmd->fd_in != -1)
+	if (cmd->fd_in != -1 && cmd->fd_in != FD_UNSET)
 		close_file(NULL, cmd->fd_in);
-	if (cmd->fd_out != -1)
+	if (cmd->fd_out != -1 && cmd->fd_out != FD_UNSET)
 		close_file(NULL, cmd->fd_out);
 	if (cmd->args != NULL)
 		ft_free_str_array(&(cmd->args));

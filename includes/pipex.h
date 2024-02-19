@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 12:17:27 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/19 12:29:56 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/19 16:54:37 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
+# define FD_UNSET -2
+# define FD_TREATED -3
 # define ERROR_MESSAGE_ARGS "Usage: pipex infile cmd1 [...] cmdn outfile"
 # define ERROR_MESSAGE_NULL_PTR "Error - Unexpected NULL pointer"
 # define ERROR_MESSAGE_MALLOC "Error - A memory allocation failed"
