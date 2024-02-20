@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:03:03 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/19 16:58:50 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/20 15:07:31 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_command	*create_command(char **cmd_args)
 	cmd->fd_in = FD_UNSET;
 	cmd->fd_out = FD_UNSET;
 	cmd->args = cmd_args;
+	cmd->pid = PID_UNSET;
 	return (cmd);
 }
 
@@ -43,10 +44,7 @@ void	delete_command(void *command)
 	if (command == NULL)
 		return ;
 	cmd = (t_command *) command;
-	if (cmd->fd_in != -1 && cmd->fd_in != FD_UNSET)
-		close_file(NULL, cmd->fd_in);
-	if (cmd->fd_out != -1 && cmd->fd_out != FD_UNSET)
-		close_file(NULL, cmd->fd_out);
+	close_cmd_fds(cmd);
 	if (cmd->args != NULL)
 		ft_free_str_array(&(cmd->args));
 	free(cmd);
@@ -80,4 +78,29 @@ void	display_command(t_command *cmd)
 		ft_printf("The given command has no args\n");
 	ft_printf("fd_in: %d - fd_out: %d\n", cmd->fd_in, cmd->fd_out);
 	ft_printf("--------------------\n");
+}
+
+/*
+ *	Closes both fd_in and fd_out of the given command
+ *	If a file descriptor's value is -1, FD_UNSET or FD_TREATED, then close_file
+ *	is not called
+ *	On error, nothing happens (closing file errors are managed by close_file()
+ */
+void	close_cmd_fds(t_command *cmd)
+{
+	if (cmd == NULL)
+		return ;
+	if (cmd->fd_in != -1 && cmd->fd_in != FD_UNSET && cmd->fd_in != FD_TREATED)
+	{
+		close_file(NULL, cmd->fd_in);
+		cmd->fd_in = FD_UNSET;
+	}
+	if (
+		cmd->fd_out != -1 && cmd->fd_out != FD_UNSET
+		&& cmd->fd_out != FD_TREATED
+	)
+	{
+		close_file(NULL, cmd->fd_out);
+		cmd->fd_out = FD_UNSET;
+	}
 }

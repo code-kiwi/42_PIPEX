@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 12:17:27 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/20 12:32:15 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/20 15:06:35 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,14 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
+# define PID_UNSET -2
 # define FD_UNSET -2
 # define FD_TREATED -3
 # define ERROR_MESSAGE_ARGS "Usage: pipex infile cmd1 [...] cmdn outfile"
 # define ERROR_MESSAGE_NULL_PTR "Error - Unexpected NULL pointer"
 # define ERROR_MESSAGE_MALLOC "Error - A memory allocation failed"
+# define ERROR_MESSAGE_INTERNAL "Error - Internal error"
+# define ERROR_MESSAGE_CMD "Command not found: "
 # define PATH_STR_START "PATH="
 # define PATH_STR_START_LEN 5
 # define PATH_STR_SEPERATOR ":"
@@ -39,7 +42,6 @@ typedef struct s_pipex_data
 	char	*program_name;
 	char	**envp;
 	t_list	*commands;
-	t_list	*pids;
 	char	**paths;
 	int		fd_infile;
 	int		fd_outfile;
@@ -50,6 +52,7 @@ typedef struct s_command
 	int		fd_in;
 	int		fd_out;
 	char	**args;
+	pid_t	pid;
 }	t_command;
 
 void		init_pipex_data(t_pipex_data *data, char *prog_name, char **envp);
@@ -65,6 +68,7 @@ void		wait_pids(t_pipex_data *data);
 t_command	*create_command(char **cmd_args);
 void		delete_command(void *command);
 void		display_command(t_command *cmd);
+void		close_cmd_fds(t_command *cmd);
 
 void		handle_error(t_pipex_data *data, \
 				bool use_errno, char *error_msg, char *err_prec);
