@@ -55,22 +55,22 @@ static void	extract_env(t_pipex_data *data, char *path_str)
 		data == NULL || path_str == NULL
 		|| ft_strncmp(path_str, PATH_STR_START, PATH_STR_START_LEN) != 0
 	)
-		handle_error(data, false, ERROR_MESSAGE_NULL_PTR);
+		handle_error(data, false, ERROR_MESSAGE_NULL_PTR, NULL);
 	sub_str = ft_substr(path_str, PATH_STR_START_LEN, ft_strlen(path_str));
 	if (sub_str == NULL)
-		handle_error(data, false, ERROR_MESSAGE_MALLOC);
+		handle_error(data, false, ERROR_MESSAGE_MALLOC, NULL);
 	nb_paths = ft_count_words(sub_str, PATH_STR_SEPERATOR);
 	data->paths = (char **) ft_calloc((nb_paths + 1), sizeof(char *));
 	if (data->paths == NULL)
 	{
 		free(sub_str);
-		handle_error(data, false, ERROR_MESSAGE_MALLOC);
+		handle_error(data, false, ERROR_MESSAGE_MALLOC, NULL);
 	}
 	if (!split_env(sub_str, data->paths, nb_paths))
 	{
 		free(sub_str);
 		ft_free_str_array(&(data->paths));
-		handle_error(data, false, ERROR_MESSAGE_MALLOC);
+		handle_error(data, false, ERROR_MESSAGE_MALLOC, NULL);
 	}
 	free(sub_str);
 }
@@ -86,7 +86,7 @@ void	get_env_paths(t_pipex_data *data, char **envp)
 	size_t	i;
 
 	if (data == NULL || envp == NULL)
-		handle_error(data, false, ERROR_MESSAGE_NULL_PTR);
+		handle_error(data, false, ERROR_MESSAGE_NULL_PTR, NULL);
 	i = 0;
 	while (envp[i] != NULL)
 	{

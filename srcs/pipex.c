@@ -17,7 +17,7 @@ int	main(int argc, char **argv, char **envp)
 	t_pipex_data	data;
 
 	if (argc < 5)
-		handle_error(NULL, false, ERROR_MESSAGE_ARGS);
+		handle_error(NULL, false, ERROR_MESSAGE_ARGS, NULL);
 	init_pipex_data(&data, argv[0], envp);
 	get_env_paths(&data, envp);
 	handle_infile_outfile(&data, argc, argv);

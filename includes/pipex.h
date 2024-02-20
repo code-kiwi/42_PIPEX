@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 12:17:27 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/19 16:54:37 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/20 12:32:15 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@
 # define PATH_STR_START "PATH="
 # define PATH_STR_START_LEN 5
 # define PATH_STR_SEPERATOR ":"
+# define PATH_ABS_START "/"
+# define PATH_ABS_START_LEN 1
+# define PATH_REL_START "./"
+# define PATH_REL_START_LEN 2
 
 typedef struct s_pipex_data
 {
@@ -62,7 +66,8 @@ t_command	*create_command(char **cmd_args);
 void		delete_command(void *command);
 void		display_command(t_command *cmd);
 
-void		handle_error(t_pipex_data *data, bool use_errno, char *error_msg);
+void		handle_error(t_pipex_data *data, \
+				bool use_errno, char *error_msg, char *err_prec);
 void		close_file(t_pipex_data *data, int fd);
 
 #endif

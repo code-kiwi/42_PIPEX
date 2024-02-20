@@ -33,7 +33,7 @@ void	init_pipex_data(t_pipex_data *data, char *program_name, char **envp)
 void	clean_pipex_data(t_pipex_data *data)
 {
 	if (data == NULL)
-		return (handle_error(data, false, ERROR_MESSAGE_NULL_PTR));
+		handle_error(data, false, ERROR_MESSAGE_NULL_PTR, NULL);
 	if (data->paths != NULL)
 		ft_free_str_array(&(data->paths));
 	if (

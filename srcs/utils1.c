@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 11:42:46 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/18 19:03:37 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/20 12:48:52 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,30 @@
  *	errno value is usable and exits the program after having prompted the
  *	appropriate error message
  */
-void	handle_error(t_pipex_data *data, bool use_errno, char *error_message)
+void	handle_error(
+	t_pipex_data *data, bool use_errno,
+	char *err_message, char *err_prec
+)
 {
+	char	*prog;
+
 	if (data != NULL)
-		clean_pipex_data(data);
+		prog = data->program_name;
 	if (use_errno)
 	{
 		if (errno != 0)
-			ft_dprintf(STDERR_FILENO, "Error: %s\n", strerror(errno));
+			ft_dprintf(STDERR_FILENO, "%s: %s\n", prog, strerror(errno));
 		else
-			ft_dprintf(STDERR_FILENO, "Error: Unknown error occured\n");
+			ft_dprintf(STDERR_FILENO, "%s: Unknown error\n", prog);
 	}
-	else if (error_message != NULL)
-		ft_dprintf(STDERR_FILENO, "Error: %s\n", error_message);
+	else if (err_message != NULL && err_prec != NULL)
+		ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", prog, err_message, err_prec);
+	else if (err_message != NULL)
+		ft_dprintf(STDERR_FILENO, "%s: %s\n", prog, err_message);
 	else
-		ft_dprintf(STDERR_FILENO, "Error: Unknown error occured\n");
+		ft_dprintf(STDERR_FILENO, "%s: Unknown error\n", prog);
+	if (data != NULL)
+		clean_pipex_data(data);
 	exit(EXIT_FAILURE);
 }
 

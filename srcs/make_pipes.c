@@ -27,7 +27,7 @@ void	make_pipes(t_pipex_data *data)
 	int			fd[2];
 
 	if (data == NULL || data->commands == NULL)
-		handle_error(data, false, ERROR_MESSAGE_ARGS);
+		handle_error(data, false, ERROR_MESSAGE_ARGS, NULL);
 	curr_command = data->commands;
 	cmd = (t_command *)(curr_command->content);
 	cmd->fd_in = data->fd_infile;
@@ -35,7 +35,7 @@ void	make_pipes(t_pipex_data *data)
 	while (curr_command->next != NULL)
 	{
 		if (pipe(fd) == -1)
-			handle_error(data, true, NULL);
+			handle_error(data, true, NULL, NULL);
 		cmd->fd_out = fd[1];
 		curr_command = curr_command->next;
 		cmd = (t_command *)(curr_command->content);

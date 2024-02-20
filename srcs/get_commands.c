@@ -63,15 +63,15 @@ void	get_commands(t_pipex_data *data, int argc, char **argv)
 	char	**cmd_args;
 
 	if (data == NULL || argv == NULL)
-		handle_error(data, false, ERROR_MESSAGE_NULL_PTR);
+		handle_error(data, false, ERROR_MESSAGE_NULL_PTR, NULL);
 	i = 2;
 	while ((int) i < argc - 1)
 	{
 		cmd_args = get_cmd_args(argv[i]);
 		if (cmd_args == NULL)
-			handle_error(data, false, ERROR_MESSAGE_MALLOC);
+			handle_error(data, false, ERROR_MESSAGE_MALLOC, NULL);
 		if (!add_cmd_to_data(data, cmd_args))
-			handle_error(data, false, ERROR_MESSAGE_MALLOC);
+			handle_error(data, false, ERROR_MESSAGE_MALLOC, NULL);
 		i++;
 	}
 }

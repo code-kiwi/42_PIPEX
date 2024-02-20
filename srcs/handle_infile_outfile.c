@@ -24,7 +24,7 @@ void	handle_infile_outfile(t_pipex_data *data, int argc, char **argv)
 	int	fd;
 
 	if (data == NULL || argv == NULL || argc < 1)
-		handle_error(data, false, ERROR_MESSAGE_NULL_PTR);
+		handle_error(data, false, ERROR_MESSAGE_NULL_PTR, NULL);
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 	{
