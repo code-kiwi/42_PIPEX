@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 12:17:27 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/22 16:57:01 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/22 17:12:40 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void		init_pipex_data(t_pipex_data *data, char *prog_name, char **envp);
 void		clean_pipex_data(t_pipex_data *data);
 
 char		**get_env_paths(char **envp);
+t_list		*get_commands(int argc, char **argv);
 
 t_command	*create_command(char **cmd_args);
 void		delete_command(void *command);

@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:55:03 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/22 16:55:44 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/22 17:34:06 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ static void	parse_args(t_pipex_data *data, int argc, char **argv, char **envp)
 		handle_error(data, false, ERROR_MESSAGE_NULL_PTR, NULL);
 	data->paths = get_env_paths(envp);
 	if (data->paths == NULL)
+		handle_error(data, true, NULL, NULL);
+	data->commands = get_commands(argc, argv);
+	if (data->commands == NULL)
 		handle_error(data, true, NULL, NULL);
 }
 
