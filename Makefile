@@ -6,7 +6,7 @@
 #    By: mhotting <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/11 12:21:10 by mhotting          #+#    #+#              #
-#    Updated: 2024/02/19 11:40:26 by mhotting         ###   ########.fr        #
+#    Updated: 2024/02/22 15:54:04 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,16 +36,7 @@ LIBFT_FLAGS				=	-L$(LIBFT_DIR) -lft
 
 # SOURCES GENERAL
 SRCS_MAIN_DIR			=	srcs/
-SRCS_FILES				=	pipex.c					\
-							get_env.c				\
-							handle_infile_outfile.c	\
-							exec_commands.c			\
-							get_commands.c			\
-							make_pipes.c			\
-							wait_pids.c				\
-							pipex_data_utils1.c		\
-							command_utils1.c		\
-							utils1.c
+SRCS_FILES				=	pipex.c
 SRCS					=	$(addprefix $(SRCS_MAIN_DIR), $(SRCS_FILES))
 
 # OBJECTS GENERAL
