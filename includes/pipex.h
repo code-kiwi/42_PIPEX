@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 12:17:27 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/22 17:12:40 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/25 21:03:56 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_pipex_data
 	char	**paths;
 	int		fd_infile;
 	int		fd_outfile;
+	int		pipe_fds[2];
 }	t_pipex_data;
 
 typedef struct s_command
@@ -61,6 +62,14 @@ void		clean_pipex_data(t_pipex_data *data);
 
 char		**get_env_paths(char **envp);
 t_list		*get_commands(int argc, char **argv);
+int			handle_infile(char *infile);
+int			handle_outfile(char *outfile);
+bool		set_cmd_fds(t_pipex_data *data, t_command *cmd, \
+		bool is_first, bool is_last);
+bool		handle_command(t_command *cmd, char **paths, char **envp, \
+		int pipe_fds[2]);
+
+void		wait_pids(t_list *commands);
 
 t_command	*create_command(char **cmd_args);
 void		delete_command(void *command);

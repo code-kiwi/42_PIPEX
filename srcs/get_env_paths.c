@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 16:44:10 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/22 17:26:22 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/25 13:51:47 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,5 @@ char	**get_env_paths(char **envp)
 			return (extract_env(envp[i]));
 		i++;
 	}
-	return (NULL);
+	return (ft_split("", ""));
 }

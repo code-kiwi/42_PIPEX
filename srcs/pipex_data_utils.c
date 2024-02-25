@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 16:15:44 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/22 17:30:43 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/25 21:01:59 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	init_pipex_data(t_pipex_data *data, char *program_name, char **envp)
 	data->paths = NULL;
 	data->fd_infile = FD_UNSET;
 	data->fd_outfile = FD_UNSET;
+	data->pipe_fds[0] = FD_UNSET;
+	data->pipe_fds[1] = FD_UNSET;
 }
 
 /*
@@ -46,5 +48,12 @@ void	clean_pipex_data(t_pipex_data *data)
 	)
 		close_file(data, data->fd_outfile);
 	if (data->commands != NULL)
+	{
+		wait_pids(data->commands);
 		ft_lstclear(&(data->commands), &delete_command);
+	}
+	if ((data->pipe_fds)[0] != -1 && (data->pipe_fds)[0] != FD_UNSET)
+		close_file(data, (data->pipe_fds)[0]);
+	if ((data->pipe_fds)[1] != -1 && (data->pipe_fds)[1] != FD_UNSET)
+		close_file(data, (data->pipe_fds)[1]);
 }
