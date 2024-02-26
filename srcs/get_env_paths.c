@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env.c                                          :+:      :+:    :+:   */
+/*   get_env_paths.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/16 14:17:26 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/18 17:39:26 by mhotting         ###   ########.fr       */
+/*   Created: 2024/02/22 16:44:10 by mhotting          #+#    #+#             */
+/*   Updated: 2024/02/25 13:51:47 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,57 +41,57 @@ static bool	split_env(char *path_str, char **res, size_t nb_paths)
 }
 
 /*
- *	Puts the different paths from the given string into data->paths
- *	An array of strings is allocated in order to store the paths (NULL
- *	terminated array)
- *	In case of error, the memory is freed and the program is left
+ *	Puts the different paths from the given string into a NULL terminated array
+ *	This array is allocated
+ *	The given path_str is expected to start with "PATH=" or an undefined
+ *	result would be returned by the function
+ *	Returns NULL on error
  */
-static void	extract_env(t_pipex_data *data, char *path_str)
+static char	**extract_env(char *path_str)
 {
 	char	*sub_str;
 	size_t	nb_paths;
+	char	**res;
 
-	if (
-		data == NULL || path_str == NULL
-		|| ft_strncmp(path_str, PATH_STR_START, PATH_STR_START_LEN) != 0
-	)
-		handle_error(data, false, ERROR_MESSAGE_NULL_PTR, NULL);
+	if (path_str == NULL)
+		return (NULL);
 	sub_str = ft_substr(path_str, PATH_STR_START_LEN, ft_strlen(path_str));
 	if (sub_str == NULL)
-		handle_error(data, false, ERROR_MESSAGE_MALLOC, NULL);
+		return (NULL);
 	nb_paths = ft_count_words(sub_str, PATH_STR_SEPERATOR);
-	data->paths = (char **) ft_calloc((nb_paths + 1), sizeof(char *));
-	if (data->paths == NULL)
+	res = (char **) ft_calloc((nb_paths + 1), sizeof(char *));
+	if (res == NULL)
 	{
 		free(sub_str);
-		handle_error(data, false, ERROR_MESSAGE_MALLOC, NULL);
+		return (NULL);
 	}
-	if (!split_env(sub_str, data->paths, nb_paths))
+	if (!split_env(sub_str, res, nb_paths))
 	{
 		free(sub_str);
-		ft_free_str_array(&(data->paths));
-		handle_error(data, false, ERROR_MESSAGE_MALLOC, NULL);
+		ft_free_str_array(&res);
+		return (NULL);
 	}
 	free(sub_str);
+	return (res);
 }
 
 /*
  *	Searches for the PATH in the environment variables
- *	When found, set data->paths to an array containing all the paths
- *	Exits the program in case of error, using the function to release resources
- *	properly
+ *	When found, splits it into a null terminated array containing all the paths
+ *	Returns NULL on error
  */
-void	get_env_paths(t_pipex_data *data, char **envp)
+char	**get_env_paths(char **envp)
 {
 	size_t	i;
 
-	if (data == NULL || envp == NULL)
-		handle_error(data, false, ERROR_MESSAGE_NULL_PTR, NULL);
+	if (envp == NULL)
+		return (NULL);
 	i = 0;
 	while (envp[i] != NULL)
 	{
 		if (ft_strncmp(envp[i], PATH_STR_START, PATH_STR_START_LEN) == 0)
-			extract_env(data, envp[i]);
+			return (extract_env(envp[i]));
 		i++;
 	}
+	return (ft_split("", ""));
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_data_utils1.c                                :+:      :+:    :+:   */
+/*   pipex_data_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/16 13:35:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/20 13:29:48 by mhotting         ###   ########.fr       */
+/*   Created: 2024/02/22 16:15:44 by mhotting          #+#    #+#             */
+/*   Updated: 2024/02/26 14:29:33 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,31 @@ void	init_pipex_data(t_pipex_data *data, char *program_name, char **envp)
 	data->paths = NULL;
 	data->fd_infile = FD_UNSET;
 	data->fd_outfile = FD_UNSET;
+	data->pipe_fds[0] = FD_UNSET;
+	data->pipe_fds[1] = FD_UNSET;
+}
+
+/*
+ *	Given a pipex data element, closes it pipe_fds if they are opened
+ *	When the fds are closed, their value is set to FD_UNSET
+ */
+void	close_pipex_pipe_fds(t_pipex_data *data)
+{
+	int	*fds;
+
+	if (data == NULL)
+		handle_error(data, false, ERROR_MESSAGE_NULL_PTR, NULL);
+	fds = (int *)(data->pipe_fds);
+	if (fds[0] != -1 && fds[0] != FD_UNSET && fds[0] != FD_TREATED)
+	{
+		close_file(data, fds[0]);
+		fds[0] = FD_UNSET;
+	}
+	if (fds[1] != -1 && fds[1] != FD_UNSET && fds[1] != FD_TREATED)
+	{
+		close_file(data, fds[1]);
+		fds[1] = FD_UNSET;
+	}
 }
 
 /*
@@ -47,4 +72,5 @@ void	clean_pipex_data(t_pipex_data *data)
 		close_file(data, data->fd_outfile);
 	if (data->commands != NULL)
 		ft_lstclear(&(data->commands), &delete_command);
+	close_pipex_pipe_fds(data);
 }

@@ -5,40 +5,39 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/18 18:12:25 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/19 17:03:10 by mhotting         ###   ########.fr       */
+/*   Created: 2024/02/25 14:10:29 by mhotting          #+#    #+#             */
+/*   Updated: 2024/02/25 15:03:15 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 /*
- *	Opens infile and outfile given as program parameter in order to associate
- *	a file descriptor to them and register them into the project main struct
- *	In case of error, the appropriate error message is printed but the
- *	execution keeps going (main structure fds are set to FD_UNSET by default
- *	and will keep this value when an error occurs)
+ *	Opens the given file with read only mode
+ *	On error, -1 is returned (open error or invalid given file error)
  */
-void	handle_infile_outfile(t_pipex_data *data, int argc, char **argv)
+int	handle_infile(char *infile)
 {
 	int	fd;
 
-	if (data == NULL || argv == NULL || argc < 1)
-		handle_error(data, false, ERROR_MESSAGE_NULL_PTR, NULL);
-	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
-	{
-		ft_dprintf(STDERR_FILENO, "%s: Error - %s: %s\n", data->program_name, \
-				strerror(errno), argv[1]);
-	}
-	else
-		data->fd_infile = fd;
-	fd = open(argv[argc - 1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	if (fd == -1)
-	{
-		ft_dprintf(STDERR_FILENO, "%s: Error - %s: %s\n", data->program_name, \
-				strerror(errno), argv[argc - 1]);
-	}
-	else
-		data->fd_outfile = fd;
+	if (infile == NULL)
+		return (-1);
+	fd = open(infile, O_RDONLY);
+	return (fd);
+}
+
+/*
+ *	Opens the given file in order to create it if it does not exist, write
+ *	to the file by erasing its content
+ *	The created file has 644 rights (RW-R--R--)
+ *	On error, -1 is returned (open error or invalid given file error)
+ */
+int	handle_outfile(char *outfile)
+{
+	int	fd;
+
+	if (outfile == NULL)
+		return (-1);
+	fd = open(outfile, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	return (fd);
 }
