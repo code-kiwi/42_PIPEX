@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:55:03 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/26 10:56:15 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/26 14:36:29 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ static void	handle_files(t_pipex_data *data, char *infile, char *outfile)
 }
 
 /*
- *
+ *	Goes through each command of data->commands, sets its fds and executes it
+ *	On error, the program exits properly, displaying an error message
  */
 static void	handle_commands(t_pipex_data *data)
 {
@@ -85,11 +86,7 @@ static void	handle_commands(t_pipex_data *data)
 			cmd->fd_in != -1 && cmd->fd_out != -1
 			&& cmd->fd_in != FD_UNSET && cmd->fd_out != FD_UNSET
 		)
-		{
-			ok = handle_command(cmd, data->paths, data->envp, data->pipe_fds);
-			if (!ok)
-				handle_error(data, true, NULL, NULL);
-		}
+			handle_command(data, cmd);
 		close_cmd_fds(cmd);
 		curr = curr->next;
 	}
@@ -98,6 +95,7 @@ static void	handle_commands(t_pipex_data *data)
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex_data	data;
+	bool			all_process_ok;
 
 	if (argc < 5)
 		handle_error(NULL, false, ERROR_MESSAGE_ARGS, NULL);
@@ -105,7 +103,9 @@ int	main(int argc, char **argv, char **envp)
 	parse_args(&data, argc, argv, envp);
 	handle_files(&data, argv[1], argv[argc - 1]);
 	handle_commands(&data);
-	wait_pids(data.commands);
+	all_process_ok = wait_pids(data.commands);
 	clean_pipex_data(&data);
+	if (!all_process_ok)
+		exit(EXIT_FAILURE);
 	return (0);
 }

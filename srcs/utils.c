@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 16:18:10 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/22 16:29:18 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/26 14:02:27 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	handle_error(
 
 	if (data != NULL)
 		prog = data->program_name;
+	else
+		prog = DEFAULT_PROG_NAME;
 	if (use_errno)
 	{
 		if (errno != 0)

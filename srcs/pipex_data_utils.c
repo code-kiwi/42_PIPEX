@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 16:15:44 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/25 21:01:59 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/26 14:29:33 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,29 @@ void	init_pipex_data(t_pipex_data *data, char *program_name, char **envp)
 	data->fd_outfile = FD_UNSET;
 	data->pipe_fds[0] = FD_UNSET;
 	data->pipe_fds[1] = FD_UNSET;
+}
+
+/*
+ *	Given a pipex data element, closes it pipe_fds if they are opened
+ *	When the fds are closed, their value is set to FD_UNSET
+ */
+void	close_pipex_pipe_fds(t_pipex_data *data)
+{
+	int	*fds;
+
+	if (data == NULL)
+		handle_error(data, false, ERROR_MESSAGE_NULL_PTR, NULL);
+	fds = (int *)(data->pipe_fds);
+	if (fds[0] != -1 && fds[0] != FD_UNSET && fds[0] != FD_TREATED)
+	{
+		close_file(data, fds[0]);
+		fds[0] = FD_UNSET;
+	}
+	if (fds[1] != -1 && fds[1] != FD_UNSET && fds[1] != FD_TREATED)
+	{
+		close_file(data, fds[1]);
+		fds[1] = FD_UNSET;
+	}
 }
 
 /*
@@ -48,12 +71,6 @@ void	clean_pipex_data(t_pipex_data *data)
 	)
 		close_file(data, data->fd_outfile);
 	if (data->commands != NULL)
-	{
-		wait_pids(data->commands);
 		ft_lstclear(&(data->commands), &delete_command);
-	}
-	if ((data->pipe_fds)[0] != -1 && (data->pipe_fds)[0] != FD_UNSET)
-		close_file(data, (data->pipe_fds)[0]);
-	if ((data->pipe_fds)[1] != -1 && (data->pipe_fds)[1] != FD_UNSET)
-		close_file(data, (data->pipe_fds)[1]);
+	close_pipex_pipe_fds(data);
 }

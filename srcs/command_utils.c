@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 16:27:42 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/22 17:23:14 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/26 13:06:44 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	display_command(t_command *cmd)
 	else
 		ft_printf("The given command has no args\n");
 	ft_printf("fd_in: %d - fd_out: %d\n", cmd->fd_in, cmd->fd_out);
+	ft_printf("PID: %d\n", cmd->pid);
 	ft_printf("--------------------\n");
 }
 
