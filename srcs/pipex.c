@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:55:03 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/25 21:13:33 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/26 10:56:15 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ static void	handle_commands(t_pipex_data *data)
 			ok = handle_command(cmd, data->paths, data->envp, data->pipe_fds);
 			if (!ok)
 				handle_error(data, true, NULL, NULL);
-			close_cmd_fds(cmd);
 		}
+		close_cmd_fds(cmd);
 		curr = curr->next;
 	}
 }
