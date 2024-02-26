@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 12:17:27 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/26 13:49:55 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:36:02 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ t_command	*create_command(char **cmd_args);
 void		delete_command(void *command);
 void		display_command(t_command *cmd);
 void		close_cmd_fds(t_command *cmd);
+
+char		**pipex_split(char *str, char quote);
 
 void		handle_error(t_pipex_data *data, \
 				bool use_errno, char *error_msg, char *err_prec);

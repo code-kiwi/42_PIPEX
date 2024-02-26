@@ -6,7 +6,7 @@
 #    By: mhotting <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/11 12:21:10 by mhotting          #+#    #+#              #
-#    Updated: 2024/02/25 20:12:04 by mhotting         ###   ########.fr        #
+#    Updated: 2024/02/26 16:50:21 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ SRCS_FILES				=	pipex.c					\
 							wait_pids.c				\
 							command_utils.c			\
 							pipex_data_utils.c		\
+							pipex_split.c			\
 							utils.c
 SRCS					=	$(addprefix $(SRCS_MAIN_DIR), $(SRCS_FILES))
 
