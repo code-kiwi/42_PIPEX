@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 16:58:51 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/26 18:38:04 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/27 11:39:35 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static bool	add_cmd_to_data(t_list **commands, char **cmd_args)
 /*
  *	Given a command string, splits it into valid chunks and returns a NULL
  *	terminated array containing all the chunks
+ *	Handles cases with quotes or double quotes into the input command
  *	Returns NULL on error
  *	On success, a pointer to the resulting array is returned
  */

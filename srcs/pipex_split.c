@@ -6,12 +6,16 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:40:41 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/26 18:42:55 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/27 12:13:07 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+/*
+ *	Returns the index of the next quote into the given str, starting from i
+ *	If no quote is found, returns the index of the end of str
+ */
 static size_t	pipex_split_get_end_quotes_idx(char *str, size_t i, char quote)
 {
 	size_t	j;
@@ -22,6 +26,12 @@ static size_t	pipex_split_get_end_quotes_idx(char *str, size_t i, char quote)
 	return (j);
 }
 
+/*
+ *	Extracts the chunks from the given string and stores them into res NULL
+ *	terminated array
+ *	Quotes are taken into account
+ *	Returns NULL on error
+ */
 static char	**pipex_split_extract(
 	char *s, char **res, size_t	nb_words, char quote
 )
@@ -53,6 +63,10 @@ static char	**pipex_split_extract(
 	return (res);
 }
 
+/*
+ *	Sets given str to the character right after the next quote
+ *	If no quote is found, str pointer reaches the end of the given string
+ */
 static void	pipex_split_reach_next_quote(char **str, char quote)
 {
 	char	*s;
@@ -67,6 +81,10 @@ static void	pipex_split_reach_next_quote(char **str, char quote)
 	*str = s;
 }
 
+/*
+ *	Counts the number of elements into the final splitted array
+ *	Takes quote into account
+ */
 static size_t	pipex_split_count(char *str, char quote)
 {
 	size_t	count;
@@ -96,13 +114,18 @@ static size_t	pipex_split_count(char *str, char quote)
 	return (count);
 }
 
+/*
+ *	Splits a string into multiple chunks stored in a NULL terminated array
+ *	If a quote is encountered, the split takes it into account
+ *	Returns NULL on error
+ */
 char	**pipex_split(char *str, char quote)
 {
 	char	**res;
 	size_t	nb_words;
 
 	nb_words = pipex_split_count(str, quote);
-	res = (char **)ft_calloc(nb_words, sizeof(char *));
+	res = (char **)ft_calloc(nb_words + 1, sizeof(char *));
 	if (res == NULL)
 		return (NULL);
 	if (pipex_split_extract(str, res, nb_words, quote) == NULL)
