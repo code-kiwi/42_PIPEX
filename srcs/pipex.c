@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:55:03 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/27 19:33:37 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:51:18 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,23 +83,16 @@ static void	handle_files(t_pipex_data *data, char *infile, char *outfile)
 		data->fd_infile = handle_infile(infile);
 		if (data->fd_infile == -1)
 		{
-			if (errno != 0)
-				ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", \
+			ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", \
 						data->program_name, strerror(errno), infile);
-			else
-				ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", \
-						data->program_name, "Unknown error", outfile);
 		}
 	}
 	data->fd_outfile = handle_outfile(outfile, data->here_doc_active);
 	if (data->fd_outfile == -1)
 	{
-		if (errno != 0)
-			ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", \
-					data->program_name, strerror(errno), outfile);
-		else
-			ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", \
-					data->program_name, "Unknown error", outfile);
+		data->outfile_error = true;
+		ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", \
+				data->program_name, strerror(errno), outfile);
 	}
 }
 
@@ -144,7 +137,7 @@ int	main(int argc, char **argv, char **envp)
 	handle_commands(&data);
 	all_process_ok = wait_pids(data.commands);
 	clean_pipex_data(&data);
-	if (!all_process_ok)
+	if (!all_process_ok || data.outfile_error)
 		exit(EXIT_FAILURE);
 	return (0);
 }

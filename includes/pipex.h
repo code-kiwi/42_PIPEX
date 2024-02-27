@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 12:17:27 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/27 19:24:06 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:50:16 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_pipex_data
 {
 	t_list	*commands;
 	size_t	nb_commands;
+	bool	outfile_error;
 	bool	here_doc_active;
 	char	*program_name;
 	char	**envp;

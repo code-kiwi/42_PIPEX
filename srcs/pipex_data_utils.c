@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 16:15:44 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/27 17:44:12 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:50:48 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	init_pipex_data(t_pipex_data *data, char *program_name, char **envp)
 	data->pipe_fds[0] = FD_UNSET;
 	data->pipe_fds[1] = FD_UNSET;
 	data->here_doc_active = false;
+	data->outfile_error = false;
 }
 
 /*
