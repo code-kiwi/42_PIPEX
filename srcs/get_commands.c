@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 16:58:51 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/27 11:39:35 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:23:20 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,12 @@ static char	**get_cmd_args(char *cmd)
 
 /*
  *	Extracts all the commands from argv in order to build a t_list of t_commands
+ *	If here_doc_active is true, the command parsing starts from argv[3] instead
+ *	of argv[2]
  *	Returns NULL on error
  *	On success, returns a pointer to the created list
  */
-t_list	*get_commands(int argc, char **argv)
+t_list	*get_commands(int argc, char **argv, bool here_doc_active)
 {
 	size_t	i;
 	char	**cmd_args;
@@ -83,21 +85,19 @@ t_list	*get_commands(int argc, char **argv)
 		return (NULL);
 	commands = NULL;
 	i = 2;
+	if (here_doc_active)
+		i = 3;
 	while ((int) i < argc - 1)
 	{
-		cmd_args = get_cmd_args(argv[i]);
+		cmd_args = get_cmd_args(argv[i++]);
 		if (cmd_args == NULL)
-		{
-			ft_lstclear(&commands, &delete_command);
-			return (NULL);
-		}
+			return (ft_lstclear(&commands, &delete_command), NULL);
 		if (!add_cmd_to_data(&commands, cmd_args))
 		{
 			ft_lstclear(&commands, &delete_command);
 			ft_free_str_array(&cmd_args);
 			return (NULL);
 		}
-		i++;
 	}
 	return (commands);
 }

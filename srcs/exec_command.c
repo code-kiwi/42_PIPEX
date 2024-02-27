@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 19:18:22 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/26 14:39:48 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/27 17:26:26 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ static char	*get_command_path(char **paths, char *given_cmd)
  */
 static void	exec_command(t_pipex_data *data, t_command *cmd)
 {
-	int		returned;
 	char	*command_path;
 
 	if (data == NULL || cmd == NULL)
@@ -72,9 +71,16 @@ static void	exec_command(t_pipex_data *data, t_command *cmd)
 	close_pipex_pipe_fds(data);
 	command_path = get_command_path(data->paths, (cmd->args)[0]);
 	if (command_path == NULL)
+	{
+		close(STDIN_FILENO);
+		close(STDOUT_FILENO);
 		handle_error(data, false, ERROR_MESSAGE_CMD, (cmd->args)[0]);
-	returned = execve(command_path, cmd->args, data->envp);
+	}
+	execve(command_path, cmd->args, data->envp);
 	free(command_path);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	handle_error(data, true, NULL, NULL);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 12:17:27 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/26 18:36:02 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:24:06 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@
 # define PID_UNSET -2
 # define FD_UNSET -2
 # define FD_TREATED -3
-# define ERROR_MESSAGE_ARGS "Usage: pipex infile cmd1 [...] cmdn outfile"
+# define ERROR_MESSAGE_ARGS \
+	"Usage: pipex [infile | here_doc LIM] infile cmd1 [...] cmdn outfile"
 # define ERROR_MESSAGE_NULL_PTR "Error - Unexpected NULL pointer"
 # define ERROR_MESSAGE_MALLOC "Error - A memory allocation failed"
 # define ERROR_MESSAGE_INTERNAL "Error - Internal error"
@@ -37,13 +38,15 @@
 # define PATH_ABS_START_LEN 1
 # define PATH_REL_START "./"
 # define PATH_REL_START_LEN 2
+# define HERE_DOC_STR "here_doc"
 
 typedef struct s_pipex_data
 {
-	char	*program_name;
-	char	**envp;
 	t_list	*commands;
 	size_t	nb_commands;
+	bool	here_doc_active;
+	char	*program_name;
+	char	**envp;
 	char	**paths;
 	int		fd_infile;
 	int		fd_outfile;
@@ -62,10 +65,11 @@ void		init_pipex_data(t_pipex_data *data, char *prog_name, char **envp);
 void		close_pipex_pipe_fds(t_pipex_data *data);
 void		clean_pipex_data(t_pipex_data *data);
 
+bool		here_doc_read(char *limiter, int fd_to_write);
 char		**get_env_paths(char **envp);
-t_list		*get_commands(int argc, char **argv);
+t_list		*get_commands(int argc, char **argv, bool here_doc_active);
 int			handle_infile(char *infile);
-int			handle_outfile(char *outfile);
+int			handle_outfile(char *outfile, bool here_doc_active);
 bool		set_cmd_fds(t_pipex_data *data, t_command *cmd, \
 		bool is_first, bool is_last);
 void		handle_command(t_pipex_data *data, t_command *cmd);
