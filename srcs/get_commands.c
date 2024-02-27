@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 16:58:51 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/22 17:32:46 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/27 11:39:35 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,31 @@ static bool	add_cmd_to_data(t_list **commands, char **cmd_args)
 /*
  *	Given a command string, splits it into valid chunks and returns a NULL
  *	terminated array containing all the chunks
+ *	Handles cases with quotes or double quotes into the input command
  *	Returns NULL on error
  *	On success, a pointer to the resulting array is returned
  */
 static char	**get_cmd_args(char *cmd)
 {
+	char	*str;
+	char	*str2;
+	char	quote;
+
+	str = NULL;
+	str2 = NULL;
 	if (cmd == NULL)
 		return (NULL);
-	return (ft_split(cmd, " "));
+	if (ft_strchr(cmd, '\'') != NULL)
+		quote = '\'';
+	else
+		quote = '"';
+	str = ft_strchr(cmd, quote);
+	if (str != NULL)
+		str2 = ft_strchr(str + 1, quote);
+	if (str != NULL && str2 != NULL)
+		return (pipex_split(cmd, quote));
+	else
+		return (ft_split(cmd, " "));
 }
 
 /*
