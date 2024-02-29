@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 12:17:27 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/27 19:50:16 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/28 22:57:47 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@
 # define ERROR_MESSAGE_MALLOC "Error - A memory allocation failed"
 # define ERROR_MESSAGE_INTERNAL "Error - Internal error"
 # define ERROR_MESSAGE_CMD "Command not found"
+# define ERROR_MESSAGE_NOT_FOUND "No such file or directory"
+# define EXIT_COMMAND_NOT_FOUND_STATUS 127
+# define EXIT_COMMAND_UNEXECUTED_STATUS 126
 # define PATH_STR_START "PATH="
 # define PATH_STR_START_LEN 5
 # define PATH_STR_SEPERATOR ":"
@@ -43,7 +46,6 @@
 typedef struct s_pipex_data
 {
 	t_list	*commands;
-	size_t	nb_commands;
 	bool	outfile_error;
 	bool	here_doc_active;
 	char	*program_name;
@@ -74,7 +76,7 @@ int			handle_outfile(char *outfile, bool here_doc_active);
 bool		set_cmd_fds(t_pipex_data *data, t_command *cmd, \
 		bool is_first, bool is_last);
 void		handle_command(t_pipex_data *data, t_command *cmd);
-bool		wait_pids(t_list *commands);
+int			wait_pids(t_list *commands);
 
 t_command	*create_command(char **cmd_args);
 void		delete_command(void *command);
@@ -85,6 +87,11 @@ char		**pipex_split(char *str, char quote);
 
 void		handle_error(t_pipex_data *data, \
 				bool use_errno, char *error_msg, char *err_prec);
+void		handle_cmd_found_error(t_pipex_data *data, \
+				bool use_errno, char *error_msg, char *err_prec);
+void		handle_cmd_exe_error(t_pipex_data *data, \
+				bool use_errno, char *error_msg, char *err_prec);
+
 void		close_file(t_pipex_data *data, int fd);
 
 #endif

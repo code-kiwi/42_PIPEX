@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 16:18:10 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/26 14:02:27 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/28 22:57:09 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  *	errno value is usable and exits the program after having prompted the
  *	appropriate error message
  */
-void	handle_error(
+static void	error_handler(
 	t_pipex_data *data, bool use_errno,
 	char *err_message, char *err_prec
 )
@@ -44,7 +44,51 @@ void	handle_error(
 		ft_dprintf(STDERR_FILENO, "%s: Unknown error\n", prog);
 	if (data != NULL)
 		clean_pipex_data(data);
+}
+
+/*
+ *	Handles generic errors for the pipex program
+ *	Calls the error handler in order to display an error message and to clean
+ *	ressources
+ *	Then exits the program with EXIT_FAILURE status
+ */
+void	handle_error(
+	t_pipex_data *data, bool use_errno,
+	char *err_message, char *err_prec
+)
+{
+	error_handler(data, use_errno, err_message, err_prec);
 	exit(EXIT_FAILURE);
+}
+
+/*
+ *	Handles unexisting command errors for the pipex program
+ *	Calls the error handler in order to display an error message and to clean
+ *	ressources
+ *	Then exits the program with EXIT_FAILURE status
+ */
+void	handle_cmd_found_error(
+	t_pipex_data *data, bool use_errno,
+	char *err_message, char *err_prec
+)
+{
+	error_handler(data, use_errno, err_message, err_prec);
+	exit(EXIT_COMMAND_NOT_FOUND_STATUS);
+}
+
+/*
+ *	Handles unexecuted command errors for the pipex program
+ *	Calls the error handler in order to display an error message and to clean
+ *	ressources
+ *	Then exits the program with EXIT_FAILURE status
+ */
+void	handle_cmd_exe_error(
+	t_pipex_data *data, bool use_errno,
+	char *err_message, char *err_prec
+)
+{
+	error_handler(data, use_errno, err_message, err_prec);
+	exit(EXIT_COMMAND_UNEXECUTED_STATUS);
 }
 
 /*

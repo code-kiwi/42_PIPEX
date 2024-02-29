@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 19:18:22 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/27 17:26:26 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/28 22:52:55 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ static char	*get_command_path(char **paths, char *given_cmd)
 
 	if (paths == NULL || given_cmd == NULL)
 		return (NULL);
-	if (strncmp(given_cmd, PATH_ABS_START, PATH_ABS_START_LEN) == 0)
+	if (ft_strncmp(given_cmd, PATH_ABS_START, PATH_ABS_START_LEN) == 0)
 		return (ft_strdup(given_cmd));
-	if (strncmp(given_cmd, PATH_REL_START, PATH_REL_START_LEN) == 0)
+	if (ft_strncmp(given_cmd, PATH_REL_START, PATH_REL_START_LEN) == 0)
 		return (ft_strdup(given_cmd));
 	i = 0;
 	while (paths[i] != NULL)
@@ -74,13 +74,13 @@ static void	exec_command(t_pipex_data *data, t_command *cmd)
 	{
 		close(STDIN_FILENO);
 		close(STDOUT_FILENO);
-		handle_error(data, false, ERROR_MESSAGE_CMD, (cmd->args)[0]);
+		handle_cmd_found_error(data, false, ERROR_MESSAGE_CMD, (cmd->args)[0]);
 	}
 	execve(command_path, cmd->args, data->envp);
 	free(command_path);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
-	handle_error(data, true, NULL, NULL);
+	handle_cmd_exe_error(data, false, (cmd->args)[0], ERROR_MESSAGE_NOT_FOUND);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:55:03 by mhotting          #+#    #+#             */
-/*   Updated: 2024/02/27 19:51:18 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/02/28 22:58:30 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ static void	handle_commands(t_pipex_data *data)
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex_data	data;
-	bool			all_process_ok;
+	int				status;
 
 	if (argc < 5)
 		handle_error(NULL, false, ERROR_MESSAGE_ARGS, NULL);
@@ -135,9 +135,9 @@ int	main(int argc, char **argv, char **envp)
 	parse_args(&data, argc, argv, envp);
 	handle_files(&data, argv[1], argv[argc - 1]);
 	handle_commands(&data);
-	all_process_ok = wait_pids(data.commands);
+	status = wait_pids(data.commands);
 	clean_pipex_data(&data);
-	if (!all_process_ok || data.outfile_error)
+	if (data.outfile_error)
 		exit(EXIT_FAILURE);
-	return (0);
+	return (status);
 }
