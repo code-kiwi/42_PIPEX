@@ -6,7 +6,7 @@
 #    By: mhotting <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/11 12:21:10 by mhotting          #+#    #+#              #
-#    Updated: 2024/02/26 16:50:21 by mhotting         ###   ########.fr        #
+#    Updated: 2024/03/11 16:03:31 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,10 +64,7 @@ DEPS					=	$(addprefix $(DEPS_MAIN_DIR), $(DEPS_FILES))
 # RULES
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJS) $(OBJS_PUSH_SWAP)
-	$(CC) $(CFLAGS) $(HFLAGS) $(OBJS) $(LIBFT_FLAGS) -o $@
-
-$(NAME_BONUS): $(LIBFT) $(OBJS) $(OBJS_CHECKER)
+$(NAME): $(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $(HFLAGS) $(OBJS) $(LIBFT_FLAGS) -o $@
 
 $(OBJS_MAIN_DIR)%.o: $(SRCS_MAIN_DIR)%.c $(HEADERS) $(LIBFT_HEADERS)
