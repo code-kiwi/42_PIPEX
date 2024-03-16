@@ -70,7 +70,7 @@ There are useful testing tools like [this one](https://github.com/vfurmane/pipex
 It does not test everything but can help you to find some mistakes.
 
 ## Grade
-![PS](https://github.com/ayogun/42-project-badges/blob/main/badges/pipexm.png)<br><br>
+![PIPEX](https://github.com/ayogun/42-project-badges/blob/main/badges/pipexm.png)<br><br>
 `125/125`<br>
 > I spent time on this project in order to build solid foundations around UNIX systems. As an introduction, this project is not really long or difficult, but working hard on it is a good way to prepare for Minishell project.
 
